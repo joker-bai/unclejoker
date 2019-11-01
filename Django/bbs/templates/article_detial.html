@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% block blog-main %}
+    {% csrf_token %}
+    <div class="article-detial">
+        <h3>{{ article_obj.title }}</h3>
+        <p>{{ article_obj.articledetail.content | safe }}</p>
+    </div>
+    <!-- 点赞页面开始 -->
+    <div class="clearfix">
+        <div id="div_digg">
+            <div class="diggit action">
+                <span class="diggnum" id="digg_count">{{ article_obj.up_count }}</span>
+            </div>
+            <div class="buryit action">
+                <span class="burynum" id="bury_count">{{ article_obj.down_count }}</span>
+            </div>
+            <div class="clear"></div>
+            <div class="diggword" id="digg_tips" style="color: red;"></div>
+        </div>
+    </div>
+    <div class="info disabled" article_id="{{ article_obj.pk }}" username="{{ request.user.username }}"></div>
+    <!-- 点赞页面结束 -->
+    <p>评论树</p>
+    <div class="comment-tree"></div>
+    <hr>
+    <p>评论列表</p>
+    <div class="comment-list">
+        {% for comment in comment_list %}
+            <!-- 评论者信息 -->
+            <div>
+                <a href="">#{{ forloop.counter }}楼</a> &nbsp;&nbsp;
+                <span class="comment-time" style="color: #333333">{{ comment.create_time|date:"Y-m-d H:i" }}</span>&nbsp;&nbsp;
+                <a href="">{{ comment.user.username }}</a>
+                <a class="pull-right replay-btn" username="{{ comment.user.username }}"
+                   user_pid="{{ comment.pk }}">回复</a>
+            </div>
+            <!-- 如果有父评论，展示父评论 -->
+            {% if comment.parent_comment_id %}
+                <p class="well">
+                    @{{ comment.parent_comment.user.username }} {{ comment.parent_comment.content }}
+                </p>
+            {% endif %}
+            <!--评论的内容 -->
+            <div>
+                <p class="comment-detail">{{ comment.content }}</p>
+                <hr>
+            </div>
+        {% endfor %}
+    </div>
+
+    <!-- 评论页面开始-->
+    <div class="container">
+        <div class="row">
+            <div class="col-md-5">
+                <div id="commentform_title">发表评论</div>
+                <div class="comment">
+                    <p>
+                        昵称：<input type="text" id="tbCommentAuthor" class="author" disabled="disabled" size="50"
+                                  value="{{ request.user.username }}">
+                    </p>
+                    <div class="clearfix">
+                        <div class="commentbox_title_left">评论内容：</div>
+                        <div class="commentbox_title_right">
+                            <img id="ubb_quote" class="comment_icon" src="/static/images/quote.gif" alt="引用"
+                                 title="添加引用" onclick="insertUBB('tbCommentBody','quote')">
+                            <img id="ubb_bold" class="comment_icon" src="/static/images/b.png" alt="粗体"
+                                 title="添加粗体" onclick="insertUBB('tbCommentBody','b')">
+                            <img id="ubb_url" class="comment_icon" src="/static/images/lk.png" alt="链接"
+                                 title="添加链接" onclick="insertUbbUrl('tbCommentBody')">
+                            <img id="ubb_indent" class="comment_icon" src="/static/images/indent.png" alt="缩进"
+                                 title="添加首行缩进" onclick="insertIndent('tbCommentBody')">
+                            <img id="ubb_code" class="comment_icon" src="/static/images/InsertCode.gif" alt="代码"
+                                 title="添加代码" onclick="insertUbbCode()">
+                            <img id="ubb_img" class="comment_icon" src="/static/images/img.gif" alt="图片"
+                                 title="上传图片" onclick="OpenImageUploadWindow();">
+                        </div>
+                    </div>
+
+                    <div class="clear"></div>
+                    <textarea name="" id="comment-content" cols="65" rows="10"></textarea>
+                    <p id="commentbox_opt">
+                        <input id="btn_comment_submit" type="button" class="comment_btn" value="提交评论">
+                        <a href="/logout/">退出</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 评论页面结束-->
+    <!-- ajax提交点赞或者点踩 -->
+    <script src="/static/js/article_detial.js"></script>
+    <!-- ajax提交评论 -->
+    <script src="/static/js/article_comment.js"></script>
+{% endblock %}

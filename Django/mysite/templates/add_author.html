@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>添加作者资料</title>
+    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
+        <!-- Bootstrap core CSS -->
+    <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/static/Dashboard/dashboard.css" rel="stylesheet">
+</head>
+<body>
+    {% include 'my_nav.html' %}
+    <div class="container">
+        <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <div class="panel panel-primary">
+                <div class="panel-heading text-center">添加作者资料<</div>
+                <div class="panel-body">
+                    <form action="/add_author/" method="post">
+                        <p>
+                            作者：<input type="text" name="author_name">
+                        </p>
+                        <p>
+                            作品：
+                            <select multiple name="author_books">
+                                {% for book in book_list %}
+                                    <option value="{{ book.id }}">{{ book.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </p>
+                        <p>
+                            <input type="submit" class="btn-success btn" value="提交">
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        </div>
+
+    </div>
+
+<script src="/static/jquery-3.2.1.min.js"></script>
+<script src="/static/bootstrap/js/bootstrap.min.js"></script>
+</body>
+</html>

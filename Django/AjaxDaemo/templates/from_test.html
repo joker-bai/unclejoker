@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Form Test</title>
+    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <form action="/form_test/" method="post" novalidate>
+                {% csrf_token %}
+                <div class="form-group {% if form_obj.username.errors.0 %} has-error {% endif %}">
+                    {{ form_obj.username.label }}
+                    {{ form_obj.username }}
+                    <span class="help-block">{{ form_obj.username.errors.0 }}</span>
+                </div>
+                <div class="form-group {% if form_obj.username.errors.0 %} has-error {% endif %}">
+                    {{ form_obj.pwd.label }}
+                    {{ form_obj.pwd }}
+                    <span class="help-block">{{ form_obj.pwd.errors.0 }}</span>
+                </div>
+                <div class="form-group {% if form_obj.username.errors.0 %} has-error {% endif %}">
+                    {{ form_obj.re_pwd.label }}
+                    {{ form_obj.re_pwd }}
+                    <span class="help-block">{{ form_obj.re_pwd.errors.0 }}</span>
+                </div>
+                <div class="form-group {% if form_obj.email.errors.0 %} has-error {% endif %}">
+                    {{ form_obj.email.label }}
+                    {{ form_obj.email }}
+                    <span class="help-block">{{ form_obj.email.errors.0 }}</span>
+                </div>
+                <div class="form-group {% if form_obj.mobile.errors.0 %} has-error {% endif %}">
+                    {{ form_obj.mobile.label }}
+                    {{ form_obj.mobile }}
+                    <span class="help-block">{{ form_obj.mobile.errors.0 }}</span>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-default">注册</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

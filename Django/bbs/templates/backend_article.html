@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>backend_article</title>
+    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/mystyle.css">
+    <script src="/static/jquery-3.2.1.min.js"></script>
+    <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+    <style>
+        .header {
+            width: 100%;
+            height: 90px;
+        }
+    </style>
+</head>
+<body>
+<div class="">
+    <h3>文章</h3>
+    <form action="" method="post">
+        {% csrf_token %}
+        <h4>文章标题</h4>
+        <input type="text" name="article_title" id="article_title_id">
+        <textarea name="article_content" id="article_content_id" cols="50" rows="20"></textarea>
+        <p>
+            <input type="submit" class="btn btn-info">
+        </p>
+    </form>
+
+</div>
+
+<script charset="utf-8" src="/static/kindeditor/kindeditor-all.js"></script>
+<script>
+        KindEditor.ready(function(K) {
+                window.editor = K.create('#article_content_id', {
+                    width: "700px",
+                    height: "500px",
+                    uploadJson: "/upload/",
+                    extraFileUploadParams: {
+                        csrfmiddlewaretoken: $("[name = 'csrfmiddlewaretoken']").val(),
+                    }
+                });
+        });
+</script>
+</body>
+</html>

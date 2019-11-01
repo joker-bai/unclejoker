@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<!-- saved from url=(0042)https://v3.bootcss.com/examples/dashboard/ -->
+<html lang="zh-CN">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="https://v3.bootcss.com/favicon.ico">
+
+    <title>Dashboard Template for Bootstrap</title>
+
+    <!-- Bootstrap core CSS -->
+    {% load static %}
+    <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="{% static 'Dashboard/dashboard.css' %}" rel="stylesheet">
+
+</head>
+
+<body>
+
+{% include 'my_nav.html' %}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+            <ul class="nav nav-sidebar">
+                <li {% block publisher_class %}{% endblock %}><a href="/publisher_list/">出版社管理 <span
+                        class="sr-only">(current)</span></a></li>
+                <li {% block author_class %}{% endblock %}><a href="/author_list/">作者管理</a></li>
+                <li {% block book_class %}{% endblock %}><a href="/book_list/">书籍管理</a></li>
+            </ul>
+        </div>
+        {% block page_main %}
+        {% endblock %}
+    </div>
+
+
+    <!--模态框 开始-->
+    <div id="my-modal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Modal title</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label for="inputId3" class="col-sm-3 control-label">ID</label>
+                            <div class="col-sm-9">
+                                <input type="email" class="form-control" id="inputId3" placeholder="Email">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputFirstName3" class="col-sm-3 control-label">First Name</label>
+                            <div class="col-sm-9">
+                                <input type="password" class="form-control" id="inputFirstName3" placeholder="Password">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputLastName3" class="col-sm-3 control-label">Last Name</label>
+                            <div class="col-sm-9">
+                                <input type="password" class="form-control" id="inputLastName3" placeholder="Password">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputUsername3" class="col-sm-3 control-label">User Name</label>
+                            <div class="col-sm-9">
+                                <input type="password" class="form-control" id="inputUsername3" placeholder="Password">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    <!--模态框 结束-->
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+</div>
+<script src="{% static 'jquery-3.2.1.min.js' %}"></script>
+<script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+</body>
+</html>

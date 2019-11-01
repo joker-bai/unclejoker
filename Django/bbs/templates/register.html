@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>注册页面</title>
+    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <form novalidate class="form-signin form-horizontal" action="/register/" enctype="multipart/form-data" method="post">
+                {% csrf_token %}
+                <h2 class="form-signin-heading text-center">注册页面</h2>
+                <div class="form-group">
+                    <label for="{{ reg_form_obj.username.id_for_label }}"
+                           class="col-sm-2 control-label">{{ reg_form_obj.username.label }}</label>
+                    <div class="col-sm-10">
+                        {{ reg_form_obj.username }}
+                        <span class="help-block">{{ reg_form_obj.username.errors.0 }}</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ reg_form_obj.password.id_for_label }}"
+                           class="col-sm-2 control-label">{{ reg_form_obj.password.label }}</label>
+                    <div class="col-sm-10">
+                        {{ reg_form_obj.password }}
+                        <span class="help-block">{{ reg_form_obj.password.errors.0 }}</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ reg_form_obj.re_password.id_for_label }}"
+                           class="col-sm-2 control-label">{{ reg_form_obj.re_password.label }}</label>
+                    <div class="col-sm-10">
+                        {{ reg_form_obj.re_password }}
+                        <span class="help-block">{{ reg_form_obj.re_password.errors.0 }}</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ reg_form_obj.email.id_for_label }}"
+                           class="col-sm-2 control-label">{{ reg_form_obj.email.label }}</label>
+                    <div class="col-sm-10">
+                        {{ reg_form_obj.email }}
+                        <span class="help-block">{{ reg_form_obj.email.errors.0 }}</span>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">头像</label>
+                    <div class="col-sm-10">
+                        <label for="id_avatar"><img id="avatar-img" src="/static/images/default.png" alt=""></label>
+                        <input type="file" name="avatar" id="id_avatar" style="display: none">
+                        <span class="has-error"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button class="btn btn-primary" id="reg-button" type="button">注册</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="/static/jquery-3.2.1.min.js"></script>
+<script src="/static/bootstrap/js/bootstrap.min.js"></script>
+<script>
+    // 头像预览功能
+    // 当用户上传新的头像，将新的头像预览在页面
+    // 给头像标签绑定一个change事件
+    $("#id_avatar").change(function () {
+        // 1、创建一个FileReader对象
+        let fileReader = new FileReader();
+        // 2、取出input框中的文件
+        let input_file = this.files[0];
+        // 3、读取文件的内容
+        fileReader.readAsDataURL(input_file);
+        fileReader.onload = function(){
+            // 4、等文件加载完后替换原有默认头像
+            $("#avatar-img").attr("src", fileReader.result);
+        }
+    });
+
+    // 给提交按钮绑定事件，通过ajax提交
+    $("#reg-button").click( function () {
+        // 1、取用户数据
+        let username = $("#id_username").val();
+        let password = $("#id_password").val();
+        let re_password = $("#id_re_password").val();
+        let email = $("#id_email").val();
+        let avatar = $("#id_avatar")[0].files[0];
+        let csrfmiddlewaretoken = $("[name='csrfmiddlewaretoken']").val();
+
+        // 2、声明一个FormData对象,将数据信息封装进去
+        let formData = new FormData();
+        formData.append("username", username);
+        formData.append("password", password);
+        formData.append("re_password", re_password);
+        formData.append("email", email);
+        formData.append("avatar", avatar);
+        formData.append("csrfmiddlewaretoken", csrfmiddlewaretoken);
+
+
+        // 2、绑定一个ajax事件
+        $.ajax({
+            url: "/register/",
+            type: "POST",
+            processData: false,
+            contentType: false,
+            data: formData,
+            success: function (data) {
+                if (data.status){
+                    // 有错误就展示错误
+                    // 通过循环，得到错误数据
+                    $.each(data.msg, function (k,v) {
+                        // 1、找到错误信息的标签，更改标签内容
+                        // 2、给有错误的地方加has-error类
+                        $("#id_"+k).next("span").text(v[0]).parent().parent().addClass("has-error");
+                    })
+                }else {
+                    // 没有错误就跳转到指定页面
+                    location.href = data.msg
+                }
+            }
+        })
+    });
+
+    // 当input框重新获得焦点，就将错误信息和错误类去掉
+    $("form input").focus(function () {
+        // 将当前标签错误信息置空，has-error类去掉
+        $(this).next().text("").parent().parent().removeClass("has-error");
+    })
+
+    // 使用ajax来校验用户名
+    $("#id_username").blur(function () {
+        // 获取input框的内容
+        let input_val = $(this).val();
+        $.ajax({
+            url: "/check_username/",
+            type: "POST",
+            data: {
+                "username": input_val,
+                "csrfmiddlewaretoken": $("[name='csrfmiddlewaretoken']").val(),
+            },
+            success: function (data) {
+                if (data.status){
+                    $("#id_username").next().text(data.msg).parent().parent().addClass("has-error")
+                }
+            }
+        })
+    })
+</script>
+</body>
+</html>

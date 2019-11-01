@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form action="/user_add/" method="post">
+    {% csrf_token %}
+    <p>用户名：
+        <input type="text" id="id_username" name="username">
+        <a id="id_username_a">请输入用户名</a>
+    </p>
+    <p>密码：
+        <input type="password" id="id_password" name="password">
+    </p>
+    <p>
+        <input type="submit" value="注册">
+    </p>
+</form>
+
+<script src="/static/jquery-3.2.1.min.js"></script>
+<script src="/static/getCookie.js"></script>
+<script>
+    {#var $input_text = $("input[type = 'text']");#}
+    var $input_text = $("#id_username");
+    $input_text.on("mouseenter", function () {
+        $(this).addClass('hover');
+    });
+    $input_text.hover(function () {
+        $(this).removeClass('hover');
+        var text_data = $input_text.val();
+        $.ajax({
+            url: "/user_check/",
+            type: 'POST',
+            data: {'text_data': text_data},
+            success: function (data) {
+                {#alert(data);#}
+                {#var new_a = document.createElement("a");#}
+                {#var usernameEle = document.getElementById("id_username");#}
+                {#new_a.innerText = data;#}
+                {#usernameEle.append(new_a);#}
+                var aEle = document.getElementById("id_username_a");
+                $(aEle).css("color", 'red');
+                aEle.innerText = data;
+            }
+        })
+    })
+</script>
+</body>
+</html>

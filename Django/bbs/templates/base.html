@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ user_obj.blog.title }}</title>
+    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/mystyle.css">
+    <link rel="stylesheet" href="/static/theme/{{ user_obj.blog.theme }}">
+    <script src="/static/jquery-3.2.1.min.js"></script>
+    <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+</head>
+<body>
+<!-- 显示个人主页标题-->
+<div class="header">
+    <p>{{ user_obj.blog.title }}</p>
+</div>
+<!-- 个人主页面开始 -->
+<div class="container user-container">
+    <div class="row">
+        <div class="col-md-3">
+            {% load my_tags %}
+            {% get_left_page username %}
+        </div>
+        <div class="col-md-8">
+            {% block blog-main %}
+            {% endblock %}
+        </div>
+    </div>
+</div>
+<!-- 个人主页面结束 -->
+
+
+</body>
+</html>

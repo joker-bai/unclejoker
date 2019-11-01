@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Title</title>
+    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>序号</th>
+                <th>ID</th>
+                <th>书名</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for book in books %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ book.id }}</td>
+                    <td>{{ book.name }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+</table>
+<nav aria-label="Page navigation">
+  <ul class="pagination">
+{#    <li><a href="/books/?page=1">首页</a></li>#}
+{#    <li>#}
+{#      <a href="#" aria-label="Previous">#}
+{#        <span aria-hidden="true">&laquo;</span>#}
+{#      </a>#}
+{#    </li>#}
+{#    {% for page in page_list %}#}
+{#        {% if page_now == page%}#}
+{#            <li class="active"><a href="/books/?page={{ page }}">{{ page }}</a></li>#}
+{#        {% else %}#}
+{#            <li><a href="/books/?page={{ page }}">{{ page }}</a></li>#}
+{#        {% endif %}#}
+{#    {% endfor %}#}
+{#    <li>#}
+{#      <a href="#" aria-label="Next">#}
+{#        <span aria-hidden="true">&raquo;</span>#}
+{#      </a>#}
+{#    </li>#}
+{#  <li><a href="/books/?page={{ page_total }}">尾页</a></li>#}
+        {{ page_html | safe }}
+  </ul>
+</nav>
+</div>
+
+{#<script src="jquery-3.2.1.min.js"></script>#}
+{#<script src="bootstrap/js/bootstrap.min.js"></script>#}
+</body>
+</html>

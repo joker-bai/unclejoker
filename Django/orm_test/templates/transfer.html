@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Title</title>
+{#    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">#}
+</head>
+<body>
+
+<h1>正常网站</h1>
+<form action="/transfer/" method="post">
+    {% csrf_token %}
+    <p>
+        转出：
+        <input type="text" name="from">
+    </p>
+    <p>
+        转入：
+        <input type="text" name="to">
+    </p>
+    <p>
+        金额：
+        <input type="text" name="money">
+    </p>
+    <p>
+        <input type="submit" value="提交">
+    </p>
+
+</form>
+
+{#<script src="jquery-3.2.1.min.js"></script>#}
+{#<script src="bootstrap/js/bootstrap.min.js"></script>#}
+</body>
+</html>

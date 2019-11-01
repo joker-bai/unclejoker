@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ajax Html</title>
+</head>
+<body>
+{% csrf_token %}
+<input type="text" id="i1">+
+<input type="text" id="i2">=
+<input type="text" id="i3">
+<input type="button" value="Ajax提交" id="b1">
+<script src="/static/jquery-3.2.1.min.js"></script>
+<script src="/static/getCookie.js"></script>
+<script>
+    $("#b1").on("click", function () {
+        {#var csrf_token = $("[name = 'csrfmiddlewaretoken']").val();#}
+        $.ajax({
+            url: "/ajax_add/",
+            type: "POST",
+            data: {"i1": $("#i1").val(), "i2": $("#i2").val()},
+            success: function (data) {
+                $("#i3").val(data);
+            }
+        })
+    })
+</script>
+</body>
+</html>
